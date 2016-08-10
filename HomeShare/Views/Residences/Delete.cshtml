@@ -1,0 +1,136 @@
+﻿@model DAL.Residence
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Residence</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Short_Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Short_Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Long_Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Long_Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Zip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Zip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnactiveOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnactiveOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScheduleDelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleDelete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pay.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pay.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

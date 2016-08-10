@@ -1,0 +1,1230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="First_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Last_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PaysID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Pays">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paystemp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="code" Type="int" Nullable="false" />
+          <Property Name="alpha2" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="alpha3" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="nom_en_gb" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="nom_fr_fr" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Link" Type="varchar(max)" Nullable="false" />
+          <Property Name="ResidenceID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Residence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Short_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Long_Desc" Type="varchar(max)" />
+          <Property Name="Street" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Unactive" Type="bit" Nullable="false" />
+          <Property Name="UnactiveOn" Type="date" />
+          <Property Name="ScheduleDelete" Type="date" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="PaysID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'HOMESHARE.dbo.Residence_Option' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="Residence_Option">
+          <Key>
+            <PropertyRef Name="OptionID" />
+            <PropertyRef Name="ResidenceID" />
+          </Key>
+          <Property Name="OptionID" Type="int" Nullable="false" />
+          <Property Name="ResidenceID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Note" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="TransactionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start_Date" Type="date" Nullable="false" />
+          <Property Name="End_Date" Type="date" Nullable="false" />
+          <Property Name="Booked" Type="bit" Nullable="false" />
+          <Property Name="Insurance_Required" Type="bit" Nullable="false" />
+          <Property Name="Insurance" Type="bit" Nullable="false" />
+          <Property Name="ResidenceID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Best' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="v_Residence_Best">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Short_Desc" />
+            <PropertyRef Name="Street" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Short_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Long_Desc" Type="varchar(max)" />
+          <Property Name="Street" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Country' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="v_Residence_Country">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Short_Desc" />
+            <PropertyRef Name="Street" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Unactive" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="PaysID" />
+            <PropertyRef Name="MemberID" />
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Short_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Long_Desc" Type="varchar(max)" />
+          <Property Name="Street" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Unactive" Type="bit" Nullable="false" />
+          <Property Name="UnactiveOn" Type="date" />
+          <Property Name="ScheduleDelete" Type="date" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="PaysID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="v_Residence_Last_Five">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Short_Desc" />
+            <PropertyRef Name="Street" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Short_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Long_Desc" Type="varchar(max)" />
+          <Property Name="Street" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Member_Pays">
+          <End Role="Pays" Type="Self.Pays" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pays">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="PaysID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Picture" Type="Self.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Option">
+          <End Role="Option" Type="Self.Option" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Option">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Pays">
+          <End Role="Pays" Type="Self.Pays" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pays">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="PaysID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Transaction">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="p_Member_Residence" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MemberID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="p_Residence_Available" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="p_Residence_Informations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResidenceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="HSModelStoreContainer">
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Option" EntityType="Self.Option" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pays" EntityType="Self.Pays" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paystemp" EntityType="Self.paystemp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residence" EntityType="Self.Residence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residence_Option" EntityType="Self.Residence_Option" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Residence_Option].[OptionID] AS [OptionID], 
+    [Residence_Option].[ResidenceID] AS [ResidenceID], 
+    [Residence_Option].[Value] AS [Value]
+    FROM [dbo].[Residence_Option] AS [Residence_Option]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Residence_Best" EntityType="Self.v_Residence_Best" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Residence_Best].[ID] AS [ID], 
+    [v_Residence_Best].[Title] AS [Title], 
+    [v_Residence_Best].[Short_Desc] AS [Short_Desc], 
+    [v_Residence_Best].[Long_Desc] AS [Long_Desc], 
+    [v_Residence_Best].[Street] AS [Street], 
+    [v_Residence_Best].[Number] AS [Number], 
+    [v_Residence_Best].[Zip] AS [Zip], 
+    [v_Residence_Best].[City] AS [City], 
+    [v_Residence_Best].[Capacity] AS [Capacity]
+    FROM [dbo].[v_Residence_Best] AS [v_Residence_Best]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Residence_Country" EntityType="Self.v_Residence_Country" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Residence_Country].[ID] AS [ID], 
+    [v_Residence_Country].[Title] AS [Title], 
+    [v_Residence_Country].[Short_Desc] AS [Short_Desc], 
+    [v_Residence_Country].[Long_Desc] AS [Long_Desc], 
+    [v_Residence_Country].[Street] AS [Street], 
+    [v_Residence_Country].[Number] AS [Number], 
+    [v_Residence_Country].[Zip] AS [Zip], 
+    [v_Residence_Country].[City] AS [City], 
+    [v_Residence_Country].[Capacity] AS [Capacity], 
+    [v_Residence_Country].[Unactive] AS [Unactive], 
+    [v_Residence_Country].[UnactiveOn] AS [UnactiveOn], 
+    [v_Residence_Country].[ScheduleDelete] AS [ScheduleDelete], 
+    [v_Residence_Country].[Deleted] AS [Deleted], 
+    [v_Residence_Country].[PaysID] AS [PaysID], 
+    [v_Residence_Country].[MemberID] AS [MemberID], 
+    [v_Residence_Country].[Nom] AS [Nom]
+    FROM [dbo].[v_Residence_Country] AS [v_Residence_Country]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Residence_Last_Five" EntityType="Self.v_Residence_Last_Five" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Residence_Last_Five].[ID] AS [ID], 
+    [v_Residence_Last_Five].[Title] AS [Title], 
+    [v_Residence_Last_Five].[Short_Desc] AS [Short_Desc], 
+    [v_Residence_Last_Five].[Long_Desc] AS [Long_Desc], 
+    [v_Residence_Last_Five].[Street] AS [Street], 
+    [v_Residence_Last_Five].[Number] AS [Number], 
+    [v_Residence_Last_Five].[Zip] AS [Zip], 
+    [v_Residence_Last_Five].[City] AS [City], 
+    [v_Residence_Last_Five].[Capacity] AS [Capacity]
+    FROM [dbo].[v_Residence_Last_Five] AS [v_Residence_Last_Five]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Member_Pays" Association="Self.FK_Member_Pays">
+            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Residence" Association="Self.FK_Picture_Residence">
+            <End Role="Residence" EntitySet="Residence" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Member" Association="Self.FK_Residence_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Residence" EntitySet="Residence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Option" Association="Self.FK_Residence_Option_Option">
+            <End Role="Option" EntitySet="Option" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Residence" Association="Self.FK_Residence_Option_Residence">
+            <End Role="Residence" EntitySet="Residence" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Pays" Association="Self.FK_Residence_Pays">
+            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Residence" EntitySet="Residence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Transaction" Association="Self.FK_Review_Transaction">
+            <End Role="Transaction" EntitySet="Transaction" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Member" Association="Self.FK_Transaction_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Residence" Association="Self.FK_Transaction_Residence">
+            <End Role="Residence" EntitySet="Residence" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PaysID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Pay" Relationship="Self.FK_Member_Pays" FromRole="Member" ToRole="Pays" />
+          <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Member" FromRole="Member" ToRole="Residence" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Member" FromRole="Member" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Residence_Option" Relationship="Self.FK_Residence_Option_Option" FromRole="Option" ToRole="Residence_Option" />
+        </EntityType>
+        <EntityType Name="Pay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Pays" FromRole="Pays" ToRole="Member" />
+          <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Pays" FromRole="Pays" ToRole="Residence" />
+        </EntityType>
+        <EntityType Name="paystemp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="code" Type="Int32" Nullable="false" />
+          <Property Name="alpha2" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alpha3" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nom_en_gb" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nom_fr_fr" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Residence" Relationship="Self.FK_Picture_Residence" FromRole="Picture" ToRole="Residence" />
+        </EntityType>
+        <EntityType Name="Residence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Short_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Long_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Unactive" Type="Boolean" Nullable="false" />
+          <Property Name="UnactiveOn" Type="DateTime" Precision="0" />
+          <Property Name="ScheduleDelete" Type="DateTime" Precision="0" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="PaysID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Residence_Member" FromRole="Residence" ToRole="Member" />
+          <NavigationProperty Name="Pay" Relationship="Self.FK_Residence_Pays" FromRole="Residence" ToRole="Pays" />
+          <NavigationProperty Name="Pictures" Relationship="Self.FK_Picture_Residence" FromRole="Residence" ToRole="Picture" />
+          <NavigationProperty Name="Residence_Option" Relationship="Self.FK_Residence_Option_Residence" FromRole="Residence" ToRole="Residence_Option" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Residence" FromRole="Residence" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Note" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Review_Transaction" FromRole="Review" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Booked" Type="Boolean" Nullable="false" />
+          <Property Name="Insurance_Required" Type="Boolean" Nullable="false" />
+          <Property Name="Insurance" Type="Boolean" Nullable="false" />
+          <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Transaction_Member" FromRole="Transaction" ToRole="Member" />
+          <NavigationProperty Name="Residence" Relationship="Self.FK_Transaction_Residence" FromRole="Transaction" ToRole="Residence" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_Transaction" FromRole="Transaction" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="Residence_Option">
+          <Key>
+            <PropertyRef Name="OptionID" />
+            <PropertyRef Name="ResidenceID" />
+          </Key>
+          <Property Name="OptionID" Type="Int32" Nullable="false" />
+          <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Option" Relationship="Self.FK_Residence_Option_Option" FromRole="Residence_Option" ToRole="Option" />
+          <NavigationProperty Name="Residence" Relationship="Self.FK_Residence_Option_Residence" FromRole="Residence_Option" ToRole="Residence" />
+        </EntityType>
+        <EntityType Name="v_Residence_Best">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Short_Desc" />
+            <PropertyRef Name="Street" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Short_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Long_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="v_Residence_Country">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Short_Desc" />
+            <PropertyRef Name="Street" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Unactive" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="PaysID" />
+            <PropertyRef Name="MemberID" />
+            <PropertyRef Name="Nom" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Short_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Long_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Unactive" Type="Boolean" Nullable="false" />
+          <Property Name="UnactiveOn" Type="DateTime" Precision="0" />
+          <Property Name="ScheduleDelete" Type="DateTime" Precision="0" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="PaysID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="v_Residence_Last_Five">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Short_Desc" />
+            <PropertyRef Name="Street" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Short_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Long_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Member_Pays">
+          <End Role="Pays" Type="Self.Pay" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pays">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="PaysID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Option">
+          <End Role="Option" Type="Self.Option" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Option">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Pays">
+          <End Role="Pays" Type="Self.Pay" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pays">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="PaysID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Picture" Type="Self.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Transaction">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Options" EntityType="Self.Option" />
+          <EntitySet Name="Pays" EntityType="Self.Pay" />
+          <EntitySet Name="paystemps" EntityType="Self.paystemp" />
+          <EntitySet Name="Pictures" EntityType="Self.Picture" />
+          <EntitySet Name="Residences" EntityType="Self.Residence" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="Residence_Option" EntityType="Self.Residence_Option" />
+          <EntitySet Name="v_Residence_Best" EntityType="Self.v_Residence_Best" />
+          <EntitySet Name="v_Residence_Country" EntityType="Self.v_Residence_Country" />
+          <EntitySet Name="v_Residence_Last_Five" EntityType="Self.v_Residence_Last_Five" />
+          <AssociationSet Name="FK_Member_Pays" Association="Self.FK_Member_Pays">
+            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Member" Association="Self.FK_Residence_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Residence" EntitySet="Residences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Member" Association="Self.FK_Transaction_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Option" Association="Self.FK_Residence_Option_Option">
+            <End Role="Option" EntitySet="Options" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Pays" Association="Self.FK_Residence_Pays">
+            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Residence" EntitySet="Residences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Residence" Association="Self.FK_Picture_Residence">
+            <End Role="Residence" EntitySet="Residences" />
+            <End Role="Picture" EntitySet="Pictures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Residence" Association="Self.FK_Residence_Option_Residence">
+            <End Role="Residence" EntitySet="Residences" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Residence" Association="Self.FK_Transaction_Residence">
+            <End Role="Residence" EntitySet="Residences" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Transaction" Association="Self.FK_Review_Transaction">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <FunctionImport Name="p_Member_Residence" ReturnType="Collection(HSModel.p_Member_Residence_Result)">
+            <Parameter Name="MemberID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="p_Residence_Available" ReturnType="Collection(HSModel.p_Residence_Available_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="p_Residence_Informations" ReturnType="Collection(HSModel.p_Residence_Informations_Result)">
+            <Parameter Name="ResidenceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(HSModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(HSModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="p_Member_Residence_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Short_Desc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Long_Desc" Nullable="true" />
+          <Property Type="String" Name="Street" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Int32" Name="Zip" Nullable="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Capacity" Nullable="false" />
+          <Property Type="Boolean" Name="Unactive" Nullable="false" />
+          <Property Type="DateTime" Name="UnactiveOn" Nullable="true" />
+          <Property Type="DateTime" Name="ScheduleDelete" Nullable="true" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
+          <Property Type="Int32" Name="PaysID" Nullable="false" />
+          <Property Type="Int32" Name="MemberID" Nullable="false" />
+          <Property Type="Int32" Name="ID1" Nullable="false" />
+          <Property Type="String" Name="Login" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="First_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Last_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="PaysID1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="p_Residence_Available_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Short_Desc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Long_Desc" Nullable="true" />
+          <Property Type="String" Name="Street" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Int32" Name="Zip" Nullable="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Capacity" Nullable="false" />
+          <Property Type="Boolean" Name="Unactive" Nullable="false" />
+          <Property Type="DateTime" Name="UnactiveOn" Nullable="true" />
+          <Property Type="DateTime" Name="ScheduleDelete" Nullable="true" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
+          <Property Type="Int32" Name="PaysID" Nullable="false" />
+          <Property Type="Int32" Name="MemberID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="p_Residence_Informations_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Short_Desc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Long_Desc" Nullable="true" />
+          <Property Type="String" Name="Street" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Int32" Name="Zip" Nullable="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Capacity" Nullable="false" />
+          <Property Type="Boolean" Name="Unactive" Nullable="false" />
+          <Property Type="DateTime" Name="UnactiveOn" Nullable="true" />
+          <Property Type="DateTime" Name="ScheduleDelete" Nullable="true" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
+          <Property Type="Int32" Name="PaysID" Nullable="false" />
+          <Property Type="Int32" Name="MemberID" Nullable="false" />
+          <Property Type="Int32" Name="ID1" Nullable="false" />
+          <Property Type="DateTime" Name="Start_Date" Nullable="false" />
+          <Property Type="DateTime" Name="End_Date" Nullable="false" />
+          <Property Type="Boolean" Name="Booked" Nullable="false" />
+          <Property Type="Boolean" Name="Insurance_Required" Nullable="false" />
+          <Property Type="Boolean" Name="Insurance" Nullable="false" />
+          <Property Type="Int32" Name="ResidenceID" Nullable="false" />
+          <Property Type="Int32" Name="MemberID1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HSModelStoreContainer" CdmEntityContainer="HSEntities">
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="HSModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="HSModel.Option">
+              <MappingFragment StoreEntitySet="Option">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pays">
+            <EntityTypeMapping TypeName="HSModel.Pay">
+              <MappingFragment StoreEntitySet="Pays">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paystemps">
+            <EntityTypeMapping TypeName="HSModel.paystemp">
+              <MappingFragment StoreEntitySet="paystemp">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="alpha2" ColumnName="alpha2" />
+                <ScalarProperty Name="alpha3" ColumnName="alpha3" />
+                <ScalarProperty Name="nom_en_gb" ColumnName="nom_en_gb" />
+                <ScalarProperty Name="nom_fr_fr" ColumnName="nom_fr_fr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pictures">
+            <EntityTypeMapping TypeName="HSModel.Picture">
+              <MappingFragment StoreEntitySet="Picture">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Residences">
+            <EntityTypeMapping TypeName="HSModel.Residence">
+              <MappingFragment StoreEntitySet="Residence">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Unactive" ColumnName="Unactive" />
+                <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
+                <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="HSModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HSModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="HSModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Booked" ColumnName="Booked" />
+                <ScalarProperty Name="Insurance_Required" ColumnName="Insurance_Required" />
+                <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Residence_Option">
+            <EntityTypeMapping TypeName="HSModel.Residence_Option">
+              <MappingFragment StoreEntitySet="Residence_Option">
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Residence_Best">
+            <EntityTypeMapping TypeName="HSModel.v_Residence_Best">
+              <MappingFragment StoreEntitySet="v_Residence_Best">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Residence_Country">
+            <EntityTypeMapping TypeName="HSModel.v_Residence_Country">
+              <MappingFragment StoreEntitySet="v_Residence_Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Unactive" ColumnName="Unactive" />
+                <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
+                <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Residence_Last_Five">
+            <EntityTypeMapping TypeName="HSModel.v_Residence_Last_Five">
+              <MappingFragment StoreEntitySet="v_Residence_Last_Five">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="p_Member_Residence" FunctionName="HSModel.Store.p_Member_Residence">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HSModel.p_Member_Residence_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Unactive" ColumnName="Unactive" />
+                <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
+                <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ID1" ColumnName="ID1" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PaysID1" ColumnName="PaysID1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="p_Residence_Available" FunctionName="HSModel.Store.p_Residence_Available">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HSModel.p_Residence_Available_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Unactive" ColumnName="Unactive" />
+                <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
+                <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="p_Residence_Informations" FunctionName="HSModel.Store.p_Residence_Informations">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HSModel.p_Residence_Informations_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Unactive" ColumnName="Unactive" />
+                <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
+                <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ID1" ColumnName="ID1" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Booked" ColumnName="Booked" />
+                <ScalarProperty Name="Insurance_Required" ColumnName="Insurance_Required" />
+                <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+                <ScalarProperty Name="MemberID1" ColumnName="MemberID1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="HSModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="HSModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="HSModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="HSModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HSModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="HSModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HSModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="HSModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="HSModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
