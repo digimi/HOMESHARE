@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.Residence>
+﻿@model IEnumerable<HomeService.Model.Residence>
 
 @{
     ViewBag.Title = "Index";
@@ -48,10 +48,10 @@
             @Html.DisplayNameFor(model => model.Deleted)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Member.Login)
+            @Html.DisplayNameFor(model => model.Member.Last_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Pay.Name)
+            @Html.DisplayNameFor(model => model.Country.CountryName)
         </th>
         <th></th>
     </tr>
@@ -95,10 +95,10 @@
             @Html.DisplayFor(modelItem => item.Deleted)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Member.Login)
+            @Html.DisplayFor(modelItem => item.Member.Last_Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Pay.Name)
+            @Html.DisplayFor(modelItem => item.Country.CountryName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

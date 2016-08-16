@@ -1,0 +1,647 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="First_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Last_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="login" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Link" Type="varchar(max)" Nullable="false" />
+          <Property Name="ResidenceID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Residence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Short_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Long_Desc" Type="varchar(max)" />
+          <Property Name="Street" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Unactive" Type="bit" Nullable="false" />
+          <Property Name="UnactiveOn" Type="date" />
+          <Property Name="ScheduleDelete" Type="date" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'C:\USERS\DIGIMI\SOURCE\REPOS\HOMESHARE\HOMESERVICE\HSDBMDF.MDF.dbo.Residence_Option' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="Residence_Option">
+          <Key>
+            <PropertyRef Name="ResidenceID" />
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="ResidenceID" Type="int" Nullable="false" />
+          <Property Name="OptionID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Note" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="TransactionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start_Date" Type="date" Nullable="false" />
+          <Property Name="End_Date" Type="date" Nullable="false" />
+          <Property Name="Booked" Type="bit" Nullable="false" />
+          <Property Name="Insurance_Required" Type="bit" Nullable="false" />
+          <Property Name="Insurance" Type="bit" Nullable="false" />
+          <Property Name="ResidenceID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" />
+        </EntityType>
+        <Association Name="FK_Member_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Picture" Type="Self.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Option">
+          <End Role="Option" Type="Self.Option" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Option">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Transaction">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HSModelStoreContainer">
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Option" EntityType="Self.Option" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residence" EntityType="Self.Residence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residence_Option" EntityType="Self.Residence_Option" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Residence_Option].[ResidenceID] AS [ResidenceID], 
+    [Residence_Option].[OptionID] AS [OptionID], 
+    [Residence_Option].[Value] AS [Value]
+    FROM [dbo].[Residence_Option] AS [Residence_Option]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Member_Country" Association="Self.FK_Member_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Residence" Association="Self.FK_Picture_Residence">
+            <End Role="Residence" EntitySet="Residence" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Country" Association="Self.FK_Residence_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Residence" EntitySet="Residence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Member" Association="Self.FK_Residence_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Residence" EntitySet="Residence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Option" Association="Self.FK_Residence_Option_Option">
+            <End Role="Option" EntitySet="Option" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Residence" Association="Self.FK_Residence_Option_Residence">
+            <End Role="Residence" EntitySet="Residence" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Transaction" Association="Self.FK_Review_Transaction">
+            <End Role="Transaction" EntitySet="Transaction" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Member" Association="Self.FK_Transaction_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Residence" Association="Self.FK_Transaction_Residence">
+            <End Role="Residence" EntitySet="Residence" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryCode" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Country" FromRole="Country" ToRole="Member" />
+          <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Country" FromRole="Country" ToRole="Residence" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Member_Country" FromRole="Member" ToRole="Country" />
+          <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Member" FromRole="Member" ToRole="Residence" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Member" FromRole="Member" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Residence_Option" Relationship="Self.FK_Residence_Option_Option" FromRole="Option" ToRole="Residence_Option" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Residence" Relationship="Self.FK_Picture_Residence" FromRole="Picture" ToRole="Residence" />
+        </EntityType>
+        <EntityType Name="Residence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Short_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Long_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Unactive" Type="Boolean" Nullable="false" />
+          <Property Name="UnactiveOn" Type="DateTime" Precision="0" />
+          <Property Name="ScheduleDelete" Type="DateTime" Precision="0" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Residence_Country" FromRole="Residence" ToRole="Country" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Residence_Member" FromRole="Residence" ToRole="Member" />
+          <NavigationProperty Name="Pictures" Relationship="Self.FK_Picture_Residence" FromRole="Residence" ToRole="Picture" />
+          <NavigationProperty Name="Residence_Option" Relationship="Self.FK_Residence_Option_Residence" FromRole="Residence" ToRole="Residence_Option" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Residence" FromRole="Residence" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Note" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Review_Transaction" FromRole="Review" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Booked" Type="Boolean" Nullable="false" />
+          <Property Name="Insurance_Required" Type="Boolean" Nullable="false" />
+          <Property Name="Insurance" Type="Boolean" Nullable="false" />
+          <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Transaction_Member" FromRole="Transaction" ToRole="Member" />
+          <NavigationProperty Name="Residence" Relationship="Self.FK_Transaction_Residence" FromRole="Transaction" ToRole="Residence" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_Transaction" FromRole="Transaction" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="Residence_Option">
+          <Key>
+            <PropertyRef Name="ResidenceID" />
+            <PropertyRef Name="OptionID" />
+          </Key>
+          <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <Property Name="OptionID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Option" Relationship="Self.FK_Residence_Option_Option" FromRole="Residence_Option" ToRole="Option" />
+          <NavigationProperty Name="Residence" Relationship="Self.FK_Residence_Option_Residence" FromRole="Residence_Option" ToRole="Residence" />
+        </EntityType>
+        <Association Name="FK_Member_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Option">
+          <End Role="Option" Type="Self.Option" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Option">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Picture_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Picture" Type="Self.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Option_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Residence_Option" Type="Self.Residence_Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence_Option">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Residence">
+          <End Role="Residence" Type="Self.Residence" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residence">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ResidenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Transaction">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HSDbmdfEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Options" EntityType="Self.Option" />
+          <EntitySet Name="Pictures" EntityType="Self.Picture" />
+          <EntitySet Name="Residences" EntityType="Self.Residence" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="Residence_Option" EntityType="Self.Residence_Option" />
+          <AssociationSet Name="FK_Member_Country" Association="Self.FK_Member_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Country" Association="Self.FK_Residence_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Residence" EntitySet="Residences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Member" Association="Self.FK_Residence_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Residence" EntitySet="Residences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Member" Association="Self.FK_Transaction_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Option" Association="Self.FK_Residence_Option_Option">
+            <End Role="Option" EntitySet="Options" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Residence" Association="Self.FK_Picture_Residence">
+            <End Role="Residence" EntitySet="Residences" />
+            <End Role="Picture" EntitySet="Pictures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Option_Residence" Association="Self.FK_Residence_Option_Residence">
+            <End Role="Residence" EntitySet="Residences" />
+            <End Role="Residence_Option" EntitySet="Residence_Option" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Residence" Association="Self.FK_Transaction_Residence">
+            <End Role="Residence" EntitySet="Residences" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Transaction" Association="Self.FK_Review_Transaction">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HSModelStoreContainer" CdmEntityContainer="HSDbmdfEntities">
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="HSModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="HSModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="HSModel.Option">
+              <MappingFragment StoreEntitySet="Option">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pictures">
+            <EntityTypeMapping TypeName="HSModel.Picture">
+              <MappingFragment StoreEntitySet="Picture">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Residences">
+            <EntityTypeMapping TypeName="HSModel.Residence">
+              <MappingFragment StoreEntitySet="Residence">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
+                <ScalarProperty Name="Long_Desc" ColumnName="Long_Desc" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Unactive" ColumnName="Unactive" />
+                <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
+                <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="HSModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="HSModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Booked" ColumnName="Booked" />
+                <ScalarProperty Name="Insurance_Required" ColumnName="Insurance_Required" />
+                <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Residence_Option">
+            <EntityTypeMapping TypeName="HSModel.Residence_Option">
+              <MappingFragment StoreEntitySet="Residence_Option">
+                <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

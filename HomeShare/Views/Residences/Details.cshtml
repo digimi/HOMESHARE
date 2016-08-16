@@ -1,4 +1,4 @@
-﻿@model DAL.Residence
+﻿@model HomeService.Model.Residence
 
 @{
     ViewBag.Title = "Details";
@@ -107,19 +107,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Member.Login)
+            @Html.DisplayNameFor(model => model.Member.Last_Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Member.Login)
+            @Html.DisplayFor(model => model.Member.Last_Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Pay.Name)
+            @Html.DisplayNameFor(model => model.Country.CountryName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Pay.Name)
+            @Html.DisplayFor(model => model.Country.CountryName)
         </dd>
 
     </dl>

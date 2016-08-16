@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using DAL;
+using HomeService.Model;
+using HomeService.Repository;
 
 namespace HomeShare.Controllers
 {
     public class ResidencesController : Controller
     {
-        private HSEntities db = new HSEntities();
+        private HSDbmdfEntities db = new HSDbmdfEntities();
 
         // GET: Residences
         public async Task<ActionResult> Index()
         {
-            var residences = db.Residences.Include(r => r.Pictures).Include(r => r.Pay).Include(r=>r.Member);
-            return View(await residences.ToListAsync());
+            //var residences = db.Residences.Include(r => r.Pictures).Include(r => r.Country).Include(r=>r.Member);
+            
+            return View(await ResidenceRepository.GetAllAsync());
         }
 
         // GET: Residences/Details/5
@@ -29,7 +31,7 @@ namespace HomeShare.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Residence residence = await db.Residences.FindAsync(id);
+            Residence residence = await ResidenceRepository.GetByIdAsync((int)id);
             if (residence == null)
             {
                 return HttpNotFound();
@@ -40,8 +42,8 @@ namespace HomeShare.Controllers
         // GET: Residences/Create
         public ActionResult Create()
         {
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Login");
-            ViewBag.PaysID = new SelectList(db.Pays, "ID", "Name");
+            ViewBag.MemberID = new SelectList(db.Members, "ID", "Last_Name");
+            ViewBag.CountryID = new SelectList(db.Countries, "ID", "CountryName");
             return View();
         }
 
@@ -50,17 +52,16 @@ namespace HomeShare.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Title,Short_Desc,Long_Desc,Street,Number,Zip,City,Capacity,Unactive,UnactiveOn,ScheduleDelete,Deleted,PaysID,MemberID")] Residence residence)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Title,Short_Desc,Long_Desc,Street,Number,Zip,City,Capacity,Unactive,UnactiveOn,ScheduleDelete,Deleted,CountryID,MemberID")] Residence residence)
         {
             if (ModelState.IsValid)
             {
-                db.Residences.Add(residence);
-                await db.SaveChangesAsync();
+                await ResidenceRepository.Add(residence);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Login", residence.MemberID);
-            ViewBag.PaysID = new SelectList(db.Pays, "ID", "Name", residence.PaysID);
+            ViewBag.MemberID = new SelectList(db.Members, "ID", "Last_Name", residence.MemberID);
+            ViewBag.CountryID = new SelectList(db.Countries, "ID", "CountryName", residence.CountryID);
             return View(residence);
         }
 
@@ -76,8 +77,8 @@ namespace HomeShare.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Login", residence.MemberID);
-            ViewBag.PaysID = new SelectList(db.Pays, "ID", "Name", residence.PaysID);
+            ViewBag.MemberID = new SelectList(db.Members, "ID", "Last_Name", residence.MemberID);
+            ViewBag.PaysID = new SelectList(db.Countries, "ID", "CountryName", residence.CountryID);
             return View(residence);
         }
 
@@ -95,7 +96,7 @@ namespace HomeShare.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.MemberID = new SelectList(db.Members, "ID", "Login", residence.MemberID);
-            ViewBag.PaysID = new SelectList(db.Pays, "ID", "Name", residence.PaysID);
+            ViewBag.PaysID = new SelectList(db.Countries, "ID", "Name", residence.CountryID);
             return View(residence);
         }
 

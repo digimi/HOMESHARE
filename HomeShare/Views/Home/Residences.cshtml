@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.Residence>
+﻿@model IEnumerable<HomeService.Model.Residence>
 
 @{
     ViewBag.Title = "Residences";
@@ -48,7 +48,7 @@
             @Html.DisplayNameFor(model => model.Deleted)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PaysID)
+            @Html.DisplayNameFor(model => model.CountryID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MemberID)
@@ -95,7 +95,7 @@
             @Html.DisplayFor(modelItem => item.Deleted)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PaysID)
+            @Html.DisplayFor(modelItem => item.CountryID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MemberID)
