@@ -27,9 +27,9 @@ namespace DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Option> Options { get; set; }
-        public virtual DbSet<Pay> Pays { get; set; }
         public virtual DbSet<paystemp> paystemps { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<Residence> Residences { get; set; }

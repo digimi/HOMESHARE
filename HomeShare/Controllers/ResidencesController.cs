@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using HomeService.Model;
 using HomeService.Repository;
+using DAL;
 
 namespace HomeShare.Controllers
 {
     public class ResidencesController : Controller
     {
-        private HSDbmdfEntities db = new HSDbmdfEntities();
-
         // GET: Residences
         public async Task<ActionResult> Index()
         {
@@ -42,8 +40,8 @@ namespace HomeShare.Controllers
         // GET: Residences/Create
         public ActionResult Create()
         {
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Last_Name");
-            ViewBag.CountryID = new SelectList(db.Countries, "ID", "CountryName");
+            ViewBag.MemberList = new SelectList(MemberRepository.Members(), "ID", "Login");
+            ViewBag.CountryList = new SelectList(CountryRepository.Countries(), "ID", "CountryName");
             return View();
         }
 
@@ -60,8 +58,8 @@ namespace HomeShare.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Last_Name", residence.MemberID);
-            ViewBag.CountryID = new SelectList(db.Countries, "ID", "CountryName", residence.CountryID);
+            ViewBag.MemberList = new SelectList(MemberRepository.Members(), "ID", "Login", residence.MemberID);
+            ViewBag.CountryList = new SelectList(CountryRepository.Countries(), "ID", "CountryName", residence.CountryID);
             return View(residence);
         }
 
@@ -72,13 +70,13 @@ namespace HomeShare.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Residence residence = await db.Residences.FindAsync(id);
+            Residence residence = await ResidenceRepository.FindAsync(id);
             if (residence == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Last_Name", residence.MemberID);
-            ViewBag.PaysID = new SelectList(db.Countries, "ID", "CountryName", residence.CountryID);
+            ViewBag.MemberList = new SelectList(MemberRepository.Members(), "ID", "Login", residence.MemberID);
+            ViewBag.CountryList = new SelectList(CountryRepository.Countries(), "ID", "CountryName", residence.CountryID);
             return View(residence);
         }
 
@@ -91,12 +89,11 @@ namespace HomeShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(residence).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await ResidenceRepository.Update(residence);
                 return RedirectToAction("Index");
             }
-            ViewBag.MemberID = new SelectList(db.Members, "ID", "Login", residence.MemberID);
-            ViewBag.PaysID = new SelectList(db.Countries, "ID", "Name", residence.CountryID);
+            ViewBag.MemberList = new SelectList(MemberRepository.Members(), "ID", "Login", residence.MemberID);
+            ViewBag.CountryList = new SelectList(CountryRepository.Countries(), "ID", "CountryName", residence.CountryID);
             return View(residence);
         }
 
@@ -107,7 +104,7 @@ namespace HomeShare.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Residence residence = await db.Residences.FindAsync(id);
+            Residence residence = await ResidenceRepository.FindAsync(id);
             if (residence == null)
             {
                 return HttpNotFound();
@@ -120,19 +117,20 @@ namespace HomeShare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Residence residence = await db.Residences.FindAsync(id);
-            db.Residences.Remove(residence);
-            await db.SaveChangesAsync();
+            using (Repository<Residence> context=new Repository<Residence>())
+            {
+                await context.DeleteAsync(context.GetById(id));
+            }
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

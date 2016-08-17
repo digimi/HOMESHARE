@@ -35,11 +35,11 @@ namespace DAL
         public Nullable<System.DateTime> UnactiveOn { get; set; }
         public Nullable<System.DateTime> ScheduleDelete { get; set; }
         public bool Deleted { get; set; }
-        public int PaysID { get; set; }
         public int MemberID { get; set; }
+        public int CountryID { get; set; }
     
+        public virtual Country Country { get; set; }
         public virtual Member Member { get; set; }
-        public virtual Pay Pay { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Picture> Pictures { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -8,39 +8,40 @@ using System.Threading.Tasks;
 
 namespace HomeService.Repository
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         #region Delete Methods
-        int Delete(IEnumerable<T> objects);
-        Task<int> DeleteAsync(IEnumerable<T> objects);
-        int Delete(T obj);
-        Task<int> DeleteAsync(T obj);
+        int Delete(IEnumerable<TEntity> objects);
+        Task<int> DeleteAsync(IEnumerable<TEntity> objects);
+        int Delete(TEntity obj);
+        Task<int> DeleteAsync(TEntity obj);
         int DeleteAll();
         Task<int> DeleteAllAsync();
         #endregion
 
         #region RetieveMethods
-        IQueryable<T> Set();
-        T GetById(int id);
-        Task<T> GetByIdAsync(int id);
-        T GetSingle(Expression<Func<T, bool>> predicate);
-        Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate);
-        List<T> Select();
-        Task<List<T>> SelectAsync();
+        IQueryable<TEntity> Set();
+        TEntity GetById(int id);
+        Task<TEntity> GetByIdAsync(int id);
+        TEntity GetSingle(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate);
+        List<TEntity> Select();
+        Task<List<TEntity>> SelectAsync();
         #endregion
 
         #region SaveMethods
-        int Insert(IEnumerable<T> objects);
-        Task<int> InsertAsync(IEnumerable<T> objects);
-        int Insert(T obj);
-        Task<int> InsertAsync(T obj);
-        int InsertOrUpdate(IEnumerable<T> objects);
-        Task<int> InsertOrUpdateAsync(IEnumerable<T> objects);
-        int InsertOrUpdate(T obj);
-        Task<int> InsertOrUpdateAsync(T obj);
+        int Insert(IEnumerable<TEntity> objects);
+        Task<int> InsertAsync(IEnumerable<TEntity> objects);
+        int Insert(TEntity obj);
+        Task<int> InsertAsync(TEntity obj);
+        int InsertOrUpdate(IEnumerable<TEntity> objects);
+        Task<int> InsertOrUpdateAsync(IEnumerable<TEntity> objects);
+        int InsertOrUpdate(TEntity obj);
+        Task<int> InsertOrUpdateAsync(TEntity obj);
         #endregion
 
-        bool Exists(Expression<Func<T, bool>> predicate);
-        Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
+        bool Exists(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
+
     }
 }

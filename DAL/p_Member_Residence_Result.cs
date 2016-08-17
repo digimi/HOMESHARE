@@ -26,14 +26,14 @@ namespace DAL
         public Nullable<System.DateTime> UnactiveOn { get; set; }
         public Nullable<System.DateTime> ScheduleDelete { get; set; }
         public bool Deleted { get; set; }
-        public int PaysID { get; set; }
         public int MemberID { get; set; }
+        public int CountryID { get; set; }
         public int ID1 { get; set; }
-        public string Login { get; set; }
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
+        public string Login { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public int PaysID1 { get; set; }
+        public int CountryID1 { get; set; }
     }
 }

@@ -66,69 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repository\CountryRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MemberRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\ResidenceRepository.cs" />
-    <Compile Include="Model\Country.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\HSEntity.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HSEntity.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\HSEntity.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\HSEntity.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HSEntity.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Member.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Option.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Picture.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Residence.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Residence_Option.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Review.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Transaction.cs">
-      <DependentUpon>HSEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="HSDbmdf.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HSDbmdf_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>HSDbmdf.mdf</DependentUpon>
-    </Content>
-    <Content Include="Model\HSEntity.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HSEntity.edmx</DependentUpon>
-      <LastGenOutput>HSEntity.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\HSEntity.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HSEntity.edmx</DependentUpon>
-      <LastGenOutput>HSEntity.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -143,20 +86,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Model\HSEntity.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HSEntity.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Model\HSEntity.edmx.diagram">
-      <DependentUpon>HSEntity.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{bc9a5b4f-b4c4-4666-87cf-428007f34fcc}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

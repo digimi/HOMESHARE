@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Country.cs">
+      <DependentUpon>HSDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="HSDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -70,9 +73,6 @@
       <DependentUpon>HSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Option.cs">
-      <DependentUpon>HSDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Pay.cs">
       <DependentUpon>HSDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="paystemp.cs">
@@ -123,17 +123,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="HSDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HSDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="HSDataModel.edmx.diagram">
       <DependentUpon>HSDataModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="HSDataModel.Context.tt">
@@ -146,12 +150,6 @@
       <DependentUpon>HSDataModel.edmx</DependentUpon>
       <LastGenOutput>HSDataModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

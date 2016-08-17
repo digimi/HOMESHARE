@@ -4,18 +4,26 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HOMESHAREModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="First_Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Last_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Phone" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="PaysID" Type="int" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Option">
           <Key>
@@ -24,13 +32,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="Pays">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="paystemp">
           <Key>
@@ -69,18 +70,18 @@
           <Property Name="UnactiveOn" Type="date" />
           <Property Name="ScheduleDelete" Type="date" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
-          <Property Name="PaysID" Type="int" Nullable="false" />
           <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'HOMESHARE.dbo.Residence_Option' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="Residence_Option">
           <Key>
-            <PropertyRef Name="OptionID" />
             <PropertyRef Name="ResidenceID" />
+            <PropertyRef Name="OptionID" />
           </Key>
-          <Property Name="OptionID" Type="int" Nullable="false" />
           <Property Name="ResidenceID" Type="int" Nullable="false" />
+          <Property Name="OptionID" Type="int" Nullable="false" />
           <Property Name="Value" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Review">
@@ -197,14 +198,14 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Name="Capacity" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Member_Pays">
-          <End Role="Pays" Type="Self.Pays" Multiplicity="1" />
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="Member" Type="Self.Member" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Pays">
+            <Principal Role="Country">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Member">
-              <PropertyRef Name="PaysID" />
+              <PropertyRef Name="CountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -257,14 +258,14 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Residence_Pays">
-          <End Role="Pays" Type="Self.Pays" Multiplicity="1" />
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Pays">
+            <Principal Role="Country">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Residence">
-              <PropertyRef Name="PaysID" />
+              <PropertyRef Name="CountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -345,10 +346,10 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <EntityContainer Name="HSModelStoreContainer">
+        <EntityContainer Name="HOMESHAREModelStoreContainer">
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Option" EntityType="Self.Option" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Pays" EntityType="Self.Pays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="paystemp" EntityType="Self.paystemp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Residence" EntityType="Self.Residence" Schema="dbo" store:Type="Tables" />
@@ -357,8 +358,8 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Residence_Option" EntityType="Self.Residence_Option" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [Residence_Option].[OptionID] AS [OptionID], 
     [Residence_Option].[ResidenceID] AS [ResidenceID], 
+    [Residence_Option].[OptionID] AS [OptionID], 
     [Residence_Option].[Value] AS [Value]
     FROM [dbo].[Residence_Option] AS [Residence_Option]</DefiningQuery>
           </EntitySet>
@@ -409,7 +410,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
     FROM [dbo].[v_Residence_Last_Five] AS [v_Residence_Last_Five]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Member_Pays" Association="Self.FK_Member_Pays">
-            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Country" EntitySet="Country" />
             <End Role="Member" EntitySet="Member" />
           </AssociationSet>
           <AssociationSet Name="FK_Picture_Residence" Association="Self.FK_Picture_Residence">
@@ -429,7 +430,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             <End Role="Residence_Option" EntitySet="Residence_Option" />
           </AssociationSet>
           <AssociationSet Name="FK_Residence_Pays" Association="Self.FK_Residence_Pays">
-            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Country" EntitySet="Country" />
             <End Role="Residence" EntitySet="Residence" />
           </AssociationSet>
           <AssociationSet Name="FK_Review_Transaction" Association="Self.FK_Review_Transaction">
@@ -449,19 +450,29 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="HSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="HOMESHAREModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Pays" FromRole="Country" ToRole="Member" />
+          <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Pays" FromRole="Country" ToRole="Residence" />
+        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PaysID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Pay" Relationship="Self.FK_Member_Pays" FromRole="Member" ToRole="Pays" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Member_Pays" FromRole="Member" ToRole="Country" />
           <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Member" FromRole="Member" ToRole="Residence" />
           <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Member" FromRole="Member" ToRole="Transaction" />
         </EntityType>
@@ -473,15 +484,6 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Residence_Option" Relationship="Self.FK_Residence_Option_Option" FromRole="Option" ToRole="Residence_Option" />
-        </EntityType>
-        <EntityType Name="Pay">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Pays" FromRole="Pays" ToRole="Member" />
-          <NavigationProperty Name="Residences" Relationship="Self.FK_Residence_Pays" FromRole="Pays" ToRole="Residence" />
         </EntityType>
         <EntityType Name="paystemp">
           <Key>
@@ -521,10 +523,10 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Name="UnactiveOn" Type="DateTime" Precision="0" />
           <Property Name="ScheduleDelete" Type="DateTime" Precision="0" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="PaysID" Type="Int32" Nullable="false" />
           <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Residence_Pays" FromRole="Residence" ToRole="Country" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Residence_Member" FromRole="Residence" ToRole="Member" />
-          <NavigationProperty Name="Pay" Relationship="Self.FK_Residence_Pays" FromRole="Residence" ToRole="Pays" />
           <NavigationProperty Name="Pictures" Relationship="Self.FK_Picture_Residence" FromRole="Residence" ToRole="Picture" />
           <NavigationProperty Name="Residence_Option" Relationship="Self.FK_Residence_Option_Residence" FromRole="Residence" ToRole="Residence_Option" />
           <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Residence" FromRole="Residence" ToRole="Transaction" />
@@ -567,11 +569,11 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
         </EntityType>
         <EntityType Name="Residence_Option">
           <Key>
-            <PropertyRef Name="OptionID" />
             <PropertyRef Name="ResidenceID" />
+            <PropertyRef Name="OptionID" />
           </Key>
-          <Property Name="OptionID" Type="Int32" Nullable="false" />
           <Property Name="ResidenceID" Type="Int32" Nullable="false" />
+          <Property Name="OptionID" Type="Int32" Nullable="false" />
           <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Option" Relationship="Self.FK_Residence_Option_Option" FromRole="Residence_Option" ToRole="Option" />
           <NavigationProperty Name="Residence" Relationship="Self.FK_Residence_Option_Residence" FromRole="Residence_Option" ToRole="Residence" />
@@ -652,14 +654,26 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Name="Capacity" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Member_Pays">
-          <End Role="Pays" Type="Self.Pay" Multiplicity="1" />
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="Member" Type="Self.Member" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Pays">
+            <Principal Role="Country">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Member">
-              <PropertyRef Name="PaysID" />
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Residence_Pays">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Residence">
+              <PropertyRef Name="CountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -696,18 +710,6 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </Principal>
             <Dependent Role="Residence_Option">
               <PropertyRef Name="OptionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Residence_Pays">
-          <End Role="Pays" Type="Self.Pay" Multiplicity="1" />
-          <End Role="Residence" Type="Self.Residence" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pays">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Residence">
-              <PropertyRef Name="PaysID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -760,9 +762,9 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Countries" EntityType="Self.Country" />
           <EntitySet Name="Members" EntityType="Self.Member" />
           <EntitySet Name="Options" EntityType="Self.Option" />
-          <EntitySet Name="Pays" EntityType="Self.Pay" />
           <EntitySet Name="paystemps" EntityType="Self.paystemp" />
           <EntitySet Name="Pictures" EntityType="Self.Picture" />
           <EntitySet Name="Residences" EntityType="Self.Residence" />
@@ -774,8 +776,12 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <EntitySet Name="v_Residence_Country" EntityType="Self.v_Residence_Country" />
           <EntitySet Name="v_Residence_Last_Five" EntityType="Self.v_Residence_Last_Five" />
           <AssociationSet Name="FK_Member_Pays" Association="Self.FK_Member_Pays">
-            <End Role="Pays" EntitySet="Pays" />
+            <End Role="Country" EntitySet="Countries" />
             <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Residence_Pays" Association="Self.FK_Residence_Pays">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Residence" EntitySet="Residences" />
           </AssociationSet>
           <AssociationSet Name="FK_Residence_Member" Association="Self.FK_Residence_Member">
             <End Role="Member" EntitySet="Members" />
@@ -788,10 +794,6 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <AssociationSet Name="FK_Residence_Option_Option" Association="Self.FK_Residence_Option_Option">
             <End Role="Option" EntitySet="Options" />
             <End Role="Residence_Option" EntitySet="Residence_Option" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Residence_Pays" Association="Self.FK_Residence_Pays">
-            <End Role="Pays" EntitySet="Pays" />
-            <End Role="Residence" EntitySet="Residences" />
           </AssociationSet>
           <AssociationSet Name="FK_Picture_Residence" Association="Self.FK_Picture_Residence">
             <End Role="Residence" EntitySet="Residences" />
@@ -809,14 +811,14 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             <End Role="Transaction" EntitySet="Transactions" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
-          <FunctionImport Name="p_Member_Residence" ReturnType="Collection(HSModel.p_Member_Residence_Result)">
+          <FunctionImport Name="p_Member_Residence" ReturnType="Collection(HOMESHAREModel.p_Member_Residence_Result)">
             <Parameter Name="MemberID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="p_Residence_Available" ReturnType="Collection(HSModel.p_Residence_Available_Result)">
+          <FunctionImport Name="p_Residence_Available" ReturnType="Collection(HOMESHAREModel.p_Residence_Available_Result)">
             <Parameter Name="StartDate" Mode="In" Type="DateTime" />
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="p_Residence_Informations" ReturnType="Collection(HSModel.p_Residence_Informations_Result)">
+          <FunctionImport Name="p_Residence_Informations" ReturnType="Collection(HOMESHAREModel.p_Residence_Informations_Result)">
             <Parameter Name="ResidenceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
@@ -835,11 +837,11 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(HSModel.sp_helpdiagramdefinition_Result)">
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(HOMESHAREModel.sp_helpdiagramdefinition_Result)">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(HSModel.sp_helpdiagrams_Result)">
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(HOMESHAREModel.sp_helpdiagrams_Result)">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -864,15 +866,15 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Type="DateTime" Name="UnactiveOn" Nullable="true" />
           <Property Type="DateTime" Name="ScheduleDelete" Nullable="true" />
           <Property Type="Boolean" Name="Deleted" Nullable="false" />
-          <Property Type="Int32" Name="PaysID" Nullable="false" />
           <Property Type="Int32" Name="MemberID" Nullable="false" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
           <Property Type="Int32" Name="ID1" Nullable="false" />
-          <Property Type="String" Name="Login" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="First_Name" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Last_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Login" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Phone" Nullable="false" MaxLength="20" />
-          <Property Type="Int32" Name="PaysID1" Nullable="false" />
+          <Property Type="Int32" Name="CountryID1" Nullable="false" />
         </ComplexType>
         <ComplexType Name="p_Residence_Available_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -888,8 +890,8 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Type="DateTime" Name="UnactiveOn" Nullable="true" />
           <Property Type="DateTime" Name="ScheduleDelete" Nullable="true" />
           <Property Type="Boolean" Name="Deleted" Nullable="false" />
-          <Property Type="Int32" Name="PaysID" Nullable="false" />
           <Property Type="Int32" Name="MemberID" Nullable="false" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
         </ComplexType>
         <ComplexType Name="p_Residence_Informations_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -905,8 +907,8 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
           <Property Type="DateTime" Name="UnactiveOn" Nullable="true" />
           <Property Type="DateTime" Name="ScheduleDelete" Nullable="true" />
           <Property Type="Boolean" Name="Deleted" Nullable="false" />
-          <Property Type="Int32" Name="PaysID" Nullable="false" />
           <Property Type="Int32" Name="MemberID" Nullable="false" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
           <Property Type="Int32" Name="ID1" Nullable="false" />
           <Property Type="DateTime" Name="Start_Date" Nullable="false" />
           <Property Type="DateTime" Name="End_Date" Nullable="false" />
@@ -932,22 +934,31 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HSModelStoreContainer" CdmEntityContainer="HSEntities">
+        <EntityContainerMapping StorageEntityContainer="HOMESHAREModelStoreContainer" CdmEntityContainer="HSEntities">
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="HSModel.Member">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Member">
               <MappingFragment StoreEntitySet="Member">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="First_Name" ColumnName="First_Name" />
                 <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Options">
-            <EntityTypeMapping TypeName="HSModel.Option">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Option">
               <MappingFragment StoreEntitySet="Option">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -955,16 +966,8 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Pays">
-            <EntityTypeMapping TypeName="HSModel.Pay">
-              <MappingFragment StoreEntitySet="Pays">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="paystemps">
-            <EntityTypeMapping TypeName="HSModel.paystemp">
+            <EntityTypeMapping TypeName="HOMESHAREModel.paystemp">
               <MappingFragment StoreEntitySet="paystemp">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />
@@ -976,7 +979,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Pictures">
-            <EntityTypeMapping TypeName="HSModel.Picture">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Picture">
               <MappingFragment StoreEntitySet="Picture">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -986,7 +989,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Residences">
-            <EntityTypeMapping TypeName="HSModel.Residence">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Residence">
               <MappingFragment StoreEntitySet="Residence">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1001,13 +1004,13 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
                 <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
                 <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reviews">
-            <EntityTypeMapping TypeName="HSModel.Review">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Review">
               <MappingFragment StoreEntitySet="Review">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
@@ -1017,7 +1020,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="HSModel.sysdiagram">
+            <EntityTypeMapping TypeName="HOMESHAREModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1028,7 +1031,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Transactions">
-            <EntityTypeMapping TypeName="HSModel.Transaction">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Transaction">
               <MappingFragment StoreEntitySet="Transaction">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
@@ -1042,16 +1045,16 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Residence_Option">
-            <EntityTypeMapping TypeName="HSModel.Residence_Option">
+            <EntityTypeMapping TypeName="HOMESHAREModel.Residence_Option">
               <MappingFragment StoreEntitySet="Residence_Option">
-                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
                 <ScalarProperty Name="ResidenceID" ColumnName="ResidenceID" />
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="v_Residence_Best">
-            <EntityTypeMapping TypeName="HSModel.v_Residence_Best">
+            <EntityTypeMapping TypeName="HOMESHAREModel.v_Residence_Best">
               <MappingFragment StoreEntitySet="v_Residence_Best">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1066,7 +1069,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="v_Residence_Country">
-            <EntityTypeMapping TypeName="HSModel.v_Residence_Country">
+            <EntityTypeMapping TypeName="HOMESHAREModel.v_Residence_Country">
               <MappingFragment StoreEntitySet="v_Residence_Country">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1088,7 +1091,7 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="v_Residence_Last_Five">
-            <EntityTypeMapping TypeName="HSModel.v_Residence_Last_Five">
+            <EntityTypeMapping TypeName="HOMESHAREModel.v_Residence_Last_Five">
               <MappingFragment StoreEntitySet="v_Residence_Last_Five">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1102,9 +1105,9 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="p_Member_Residence" FunctionName="HSModel.Store.p_Member_Residence">
+          <FunctionImportMapping FunctionImportName="p_Member_Residence" FunctionName="HOMESHAREModel.Store.p_Member_Residence">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HSModel.p_Member_Residence_Result">
+              <ComplexTypeMapping TypeName="HOMESHAREModel.p_Member_Residence_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
@@ -1118,21 +1121,21 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
                 <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
                 <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="ID1" ColumnName="ID1" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="First_Name" ColumnName="First_Name" />
                 <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="PaysID1" ColumnName="PaysID1" />
+                <ScalarProperty Name="CountryID1" ColumnName="CountryID1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="p_Residence_Available" FunctionName="HSModel.Store.p_Residence_Available">
+          <FunctionImportMapping FunctionImportName="p_Residence_Available" FunctionName="HOMESHAREModel.Store.p_Residence_Available">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HSModel.p_Residence_Available_Result">
+              <ComplexTypeMapping TypeName="HOMESHAREModel.p_Residence_Available_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
@@ -1146,14 +1149,14 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
                 <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
                 <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="p_Residence_Informations" FunctionName="HSModel.Store.p_Residence_Informations">
+          <FunctionImportMapping FunctionImportName="p_Residence_Informations" FunctionName="HOMESHAREModel.Store.p_Residence_Informations">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HSModel.p_Residence_Informations_Result">
+              <ComplexTypeMapping TypeName="HOMESHAREModel.p_Residence_Informations_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Short_Desc" ColumnName="Short_Desc" />
@@ -1167,8 +1170,8 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
                 <ScalarProperty Name="UnactiveOn" ColumnName="UnactiveOn" />
                 <ScalarProperty Name="ScheduleDelete" ColumnName="ScheduleDelete" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="PaysID" ColumnName="PaysID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="ID1" ColumnName="ID1" />
                 <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
                 <ScalarProperty Name="End_Date" ColumnName="End_Date" />
@@ -1180,20 +1183,20 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="HSModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="HSModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="HSModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="HSModel.Store.sp_helpdiagramdefinition">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="HOMESHAREModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="HOMESHAREModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="HOMESHAREModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="HOMESHAREModel.Store.sp_helpdiagramdefinition">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HSModel.sp_helpdiagramdefinition_Result">
+              <ComplexTypeMapping TypeName="HOMESHAREModel.sp_helpdiagramdefinition_Result">
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="HSModel.Store.sp_helpdiagrams">
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="HOMESHAREModel.Store.sp_helpdiagrams">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HSModel.sp_helpdiagrams_Result">
+              <ComplexTypeMapping TypeName="HOMESHAREModel.sp_helpdiagrams_Result">
                 <ScalarProperty Name="Database" ColumnName="Database" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1202,8 +1205,8 @@ avertissement 6002: La table/vue 'HOMESHARE.dbo.v_Residence_Last_Five' n'a pas d
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="HSModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="HSModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="HOMESHAREModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="HOMESHAREModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -22,14 +22,14 @@ namespace DAL
         }
     
         public int ID { get; set; }
-        public string Login { get; set; }
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
+        public string Login { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public int PaysID { get; set; }
+        public int CountryID { get; set; }
     
-        public virtual Pay Pay { get; set; }
+        public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Residence> Residences { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

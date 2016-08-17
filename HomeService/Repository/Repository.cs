@@ -5,27 +5,27 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using HomeService.Model;
 
 namespace HomeService.Repository
 {
-    public class Repository<T> : IDisposable, IRepository<T> where T : class
+    public class Repository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
     {
-        private readonly HSDbmdfEntities context;
+        private readonly DAL.HSEntities context;
 
         public Repository()
         {
-            this.context = new Model.HSDbmdfEntities();
+            this.context = new DAL.HSEntities();
         }
 
         #region Delete
 
-        public int Delete(T obj)
+        public int Delete(TEntity obj)
         {
             if (obj != null)
             {
                 try
                 {
+                    if (context.Entry<TEntity>(obj).State == EntityState.Detached) context.Set<TEntity>().Attach(obj);
                     context.Entry(obj).State = EntityState.Deleted;
                     return context.SaveChanges();
                 }
@@ -37,7 +37,7 @@ namespace HomeService.Repository
             return 0;
         }
 
-        public int Delete(IEnumerable<T> objects)
+        public int Delete(IEnumerable<TEntity> objects)
         {
             if (objects != null)
             {
@@ -45,6 +45,7 @@ namespace HomeService.Repository
                 {
                     foreach (var item in objects)
                     {
+                        if (context.Entry<TEntity>(item).State == EntityState.Detached) context.Set<TEntity>().Attach(item);
                         context.Entry(item).State = EntityState.Deleted;
                     }
                     return context.SaveChanges();
@@ -61,8 +62,9 @@ namespace HomeService.Repository
         {
             try
             {
-                foreach (T item in context.Set<T>())
+                foreach (TEntity item in context.Set<TEntity>())
                 {
+                    if (context.Entry<TEntity>(item).State == EntityState.Detached) context.Set<TEntity>().Attach(item);
                     context.Entry(item).State = EntityState.Deleted;
                 }
                 return context.SaveChanges();
@@ -77,8 +79,9 @@ namespace HomeService.Repository
         {
             try
             {
-                foreach (T item in context.Set<T>())
+                foreach (TEntity item in context.Set<TEntity>())
                 {
+                    if (context.Entry<TEntity>(item).State == EntityState.Detached) context.Set<TEntity>().Attach(item);
                     context.Entry(item).State = EntityState.Deleted;
                 }
                 return await context.SaveChangesAsync();
@@ -89,13 +92,13 @@ namespace HomeService.Repository
             }
         }
 
-        public async Task<int> DeleteAsync(T obj)
+        public async Task<int> DeleteAsync(TEntity obj)
         {
             if (obj != null)
             {
                 try
                 {
-
+                    if (context.Entry<TEntity>(obj).State == EntityState.Detached) context.Set<TEntity>().Attach(obj);
                     context.Entry(obj).State = EntityState.Deleted;
                     return await context.SaveChangesAsync();
                 }
@@ -107,7 +110,7 @@ namespace HomeService.Repository
             return 0;
         }
 
-        public async Task<int> DeleteAsync(IEnumerable<T> objects)
+        public async Task<int> DeleteAsync(IEnumerable<TEntity> objects)
         {
             if (objects != null)
             {
@@ -115,6 +118,7 @@ namespace HomeService.Repository
                 {
                     foreach (var item in objects)
                     {
+                        if (context.Entry<TEntity>(item).State == EntityState.Detached) context.Set<TEntity>().Attach(item);
                         context.Entry(item).State = EntityState.Deleted;
                     }
                     return await context.SaveChangesAsync();
@@ -134,96 +138,104 @@ namespace HomeService.Repository
             return;
         }
 
-        public bool Exists(Expression<Func<T, bool>> predicate)
+        public bool Exists(Expression<Func<TEntity, bool>> predicate)
         {
-            return context.Set<T>().SingleOrDefault(predicate) != null;
+            return context.Set<TEntity>().SingleOrDefault(predicate) != null;
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await context.Set<T>().SingleOrDefaultAsync(predicate) != null;
+            return await context.Set<TEntity>().SingleOrDefaultAsync(predicate) != null;
         }
 
-        public T GetById(int primaryKey)
+        public TEntity GetById(int primaryKey)
         {
-            return context.Set<T>().Find(primaryKey);
+            return context.Set<TEntity>().Find(primaryKey);
         }
 
-        public async Task<T> GetByIdAsync(int primaryKey)
+        public async Task<TEntity> GetByIdAsync(int primaryKey)
         {
-            return await context.Set<T>().FindAsync(primaryKey);
+            return await context.Set<TEntity>().FindAsync(primaryKey);
         }
 
-        public T GetSingle(Expression<Func<T, bool>> predicate)
+        public TEntity GetSingle(Expression<Func<TEntity, bool>> predicate)
         {
-            return context.Set<T>().SingleOrDefault(predicate);
+            return context.Set<TEntity>().SingleOrDefault(predicate);
         }
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate)
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await context.Set<T>().SingleOrDefaultAsync(predicate);
+            return await context.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
 
         #region Insert, Update
 
-        public int Insert(T obj)
+        public int Insert(TEntity obj)
         {
             if (obj != null)
             {
-                context.Set<T>().Add(obj);
+                context.Set<TEntity>().Add(obj);
                 return context.SaveChanges();
             }
             return 0;
         }
 
-        public int Insert(IEnumerable<T> objects)
+        public int Insert(IEnumerable<TEntity> objects)
         {
             if (objects != null && objects.Count() > 0)
             {
-                context.Set<T>().AddRange(objects);
+                context.Set<TEntity>().AddRange(objects);
                 return context.SaveChanges();
             }
             return 0;
         }
 
-        public async Task<int> InsertAsync(T obj)
+        public async Task<int> InsertAsync(TEntity obj)
         {
             if (obj != null)
             {
-                context.Set<T>().Add(obj);
+                context.Set<TEntity>().Add(obj);
                 return await context.SaveChangesAsync();
             }
             return 0;
         }
 
-        public async Task<int> InsertAsync(IEnumerable<T> objects)
+        public async Task<int> InsertAsync(IEnumerable<TEntity> objects)
         {
             if (objects != null && objects.Count() > 0)
             {
-                context.Set<T>().AddRange(objects);
+                context.Set<TEntity>().AddRange(objects);
                 return await context.SaveChangesAsync();
             }
             return 0;
         }
 
-        public int InsertOrUpdate(T obj)
+        public int InsertOrUpdate(TEntity obj)
         {
             if (obj != null)
             {
-                context.Entry(obj).State = EntityState.Modified;
+                if (context.Entry(obj).State == EntityState.Detached)
+                {
+                    context.Set<TEntity>().Attach(obj);
+                }
+
+                context.Entry<TEntity>(obj).State = EntityState.Modified;
+                //context.Entry(obj).CurrentValues.SetValues(obj);
+
                 return context.SaveChanges();
             }
             return 0;
         }
 
-        public int InsertOrUpdate(IEnumerable<T> objects)
+        public int InsertOrUpdate(IEnumerable<TEntity> objects)
         {
             if (objects != null && objects.Count() > 0)
             {
                 try
                 {
-                    foreach (var item in objects)
+                    foreach (TEntity item in objects)
                     {
+                        if (context.Entry<TEntity>(item).State == EntityState.Detached) context.Set<TEntity>().Attach(item);
                         context.Entry(item).State = EntityState.Modified;
                     }
                     return context.SaveChanges();
@@ -236,24 +248,30 @@ namespace HomeService.Repository
             return 0;
         }
 
-        public async Task<int> InsertOrUpdateAsync(T obj)
+        public async Task<int> InsertOrUpdateAsync(TEntity obj)
         {
             if (obj != null)
             {
+                if (context.Entry(obj).State == EntityState.Detached)
+                {
+                    context.Set<TEntity>().Attach(obj);
+                }
+
                 context.Entry(obj).State = EntityState.Modified;
                 return await context.SaveChangesAsync();
             }
             return 0;
         }
 
-        public async Task<int> InsertOrUpdateAsync(IEnumerable<T> objects)
+        public async Task<int> InsertOrUpdateAsync(IEnumerable<TEntity> objects)
         {
             if (objects != null && objects.Count() > 0)
             {
                 try
                 {
-                    foreach (var item in objects)
+                    foreach (TEntity item in objects)
                     {
+                        if (context.Entry<TEntity>(item).State == EntityState.Detached) context.Set<TEntity>().Attach(item);
                         context.Entry(item).State = EntityState.Modified;
                     }
                     return await context.SaveChangesAsync();
@@ -268,19 +286,20 @@ namespace HomeService.Repository
 
         #endregion
 
-        public List<T> Select()
+        public List<TEntity> Select()
         {
-            return context.Set<T>().ToList();
+            return context.Set<TEntity>().ToList();
         }
 
-        public async Task<List<T>> SelectAsync()
+        public async Task<List<TEntity>> SelectAsync()
         {
-            return await context.Set<T>().ToListAsync();
+            return await context.Set<TEntity>().ToListAsync();
         }
 
-        public IQueryable<T> Set()
+        public IQueryable<TEntity> Set()
         {
-            return context.Set<T>();
+            return context.Set<TEntity>();
         }
+       
     }
 }

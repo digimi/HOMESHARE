@@ -26,7 +26,7 @@ namespace DAL
         public Nullable<System.DateTime> UnactiveOn { get; set; }
         public Nullable<System.DateTime> ScheduleDelete { get; set; }
         public bool Deleted { get; set; }
-        public int PaysID { get; set; }
         public int MemberID { get; set; }
+        public int CountryID { get; set; }
     }
 }

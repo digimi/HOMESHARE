@@ -4,29 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4571054024174402bffd9dd7a36cb24d" Name="Diagram1">
-        <EntityTypeShape EntityType="HSModel.Member" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Option" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Pay" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.paystemp" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Picture" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Residence" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Review" Width="1.5" PointX="12.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.sysdiagram" Width="1.5" PointX="7.75" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Transaction" Width="1.5" PointX="10.5" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.Residence_Option" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.v_Residence_Best" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.v_Residence_Country" Width="1.5" PointX="2.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HSModel.v_Residence_Last_Five" Width="1.5" PointX="4.75" PointY="9.875" IsExpanded="true" />
-        <AssociationConnector Association="HSModel.FK_Member_Pays" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Residence_Member" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Transaction_Member" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Residence_Option_Option" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Residence_Pays" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Picture_Residence" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Residence_Option_Residence" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Transaction_Residence" ManuallyRouted="false" />
-        <AssociationConnector Association="HSModel.FK_Review_Transaction" ManuallyRouted="false" />
+      <Diagram DiagramId="00430137b15c4cb9b9b2a170dd09ee62" Name="Diagram1">
+        <EntityTypeShape EntityType="HOMESHAREModel.Country" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Member" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Option" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.paystemp" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Picture" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Residence" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Review" Width="1.5" PointX="12.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.sysdiagram" Width="1.5" PointX="7.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Transaction" Width="1.5" PointX="10.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.Residence_Option" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.v_Residence_Best" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.v_Residence_Country" Width="1.5" PointX="2.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HOMESHAREModel.v_Residence_Last_Five" Width="1.5" PointX="4.75" PointY="9.875" IsExpanded="true" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Member_Pays" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Residence_Pays" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Residence_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Transaction_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Residence_Option_Option" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Picture_Residence" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Residence_Option_Residence" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Transaction_Residence" ManuallyRouted="false" />
+        <AssociationConnector Association="HOMESHAREModel.FK_Review_Transaction" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

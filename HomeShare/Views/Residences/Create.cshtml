@@ -1,4 +1,4 @@
-﻿@model HomeService.Model.Residence
+﻿@model DAL.Residence
 
 @{
     ViewBag.Title = "Create";
@@ -118,7 +118,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Country.ID, "CountryID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CountryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model=>model.CountryID, (IEnumerable<SelectListItem>)ViewBag.CountryList, null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -126,7 +126,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MemberID, "MemberID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MemberID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("MemberList", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MemberID, "", new { @class = "text-danger" })
             </div>
         </div>

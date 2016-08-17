@@ -14,8 +14,8 @@ namespace DAL
     
     public partial class Residence_Option
     {
-        public int OptionID { get; set; }
         public int ResidenceID { get; set; }
+        public int OptionID { get; set; }
         public string Value { get; set; }
     
         public virtual Option Option { get; set; }
