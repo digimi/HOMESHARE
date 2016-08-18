@@ -9,13 +9,30 @@ namespace HomeShare.Models.Mappers
     {
         #region Mapper
 
-        public TEntity MapToEntity(TEntity entity)
+        public TEntity MapToEntity()
         {
+            TEntity entity = Activator.CreateInstance<TEntity>();
             try
             {
-                foreach (var item in entity.GetType().GetProperties(System.Reflection.BindingFlags.GetProperty))
+                foreach (var item in entity.GetType().GetProperties())
                 {
-                    item.SetValue(item, this.GetType().GetProperty(item.Name).GetValue(this));
+                    item.SetValue(entity, this.GetType().GetProperty(item.Name).GetValue(this));
+                }
+                return entity;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public static TEntity MapToEntity<TViewModel>(TViewModel viewModel) where TViewModel : MapperBase<TEntity>
+        {
+            TEntity entity = Activator.CreateInstance<TEntity>();
+            try
+            {
+                foreach (var item in entity.GetType().GetProperties())
+                {
+                    item.SetValue(entity, viewModel.GetType().GetProperty(item.Name).GetValue(viewModel));
                 }
                 return entity;
             }
@@ -25,21 +42,21 @@ namespace HomeShare.Models.Mappers
             }
         }
 
-        public TViewModel MapToModel<TViewModel>(TEntity entity) where TViewModel : MapperBase<TEntity>
+        public static TViewModel MapToModel<TViewModel>(TEntity entity) where TViewModel : MapperBase<TEntity>
         {
-            TViewModel result = Activator.CreateInstance<TViewModel>();
+            TViewModel viewModel = Activator.CreateInstance<TViewModel>();
             try
             {
-                foreach (var item in this.GetType().GetProperties(System.Reflection.BindingFlags.GetProperty))
+                foreach (var item in viewModel.GetType().GetProperties())
                 {
-                    item.SetValue(item, entity.GetType().GetProperty(item.Name).GetValue(entity));
+                    item.SetValue(viewModel, entity.GetType().GetProperty(item.Name).GetValue(entity));
                 }
-                return result;
+                return viewModel;
             }
             catch { return null; }
         }
 
-        public IEnumerable<TEntity> MapToEntity<TViewModel>(IEnumerable<TViewModel> viewModels) where TViewModel : MapperBase<TEntity>
+        public static IEnumerable<TEntity> MapToEntity<TViewModel>(IEnumerable<TViewModel> viewModels) where TViewModel : MapperBase<TEntity>
         {
             try
             {
@@ -49,20 +66,21 @@ namespace HomeShare.Models.Mappers
                 {
                     TEntity entity = Activator.CreateInstance<TEntity>();
 
-                    foreach (var item in viewModel.GetType().GetProperties(System.Reflection.BindingFlags.GetProperty))
+                    foreach (var item in entity.GetType().GetProperties())
                     {
-                        item.SetValue(item, entity.GetType().GetProperty(item.Name).GetValue(viewModel));
+                        item.SetValue(entity, viewModel.GetType().GetProperty(item.Name).GetValue(viewModel));
                     }
+                    entities.Add(entity);
                 }
                 return entities;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }
         }
 
-        public IEnumerable<TViewModel> MapToModels<TViewModel>(IEnumerable<TEntity> entities) where TViewModel : MapperBase<TEntity>
+        public static IEnumerable<TViewModel> MapToModels<TViewModel>(IEnumerable<TEntity> entities) where TViewModel : MapperBase<TEntity>
         {
             List<TViewModel> result = Activator.CreateInstance<List<TViewModel>>();
             try
@@ -71,15 +89,15 @@ namespace HomeShare.Models.Mappers
                 {
                     TViewModel viewmodel = Activator.CreateInstance<TViewModel>();
 
-                    foreach (var item in viewmodel.GetType().GetProperties(System.Reflection.BindingFlags.GetProperty))
+                    foreach (var item in viewmodel.GetType().GetProperties())
                     {
-                        item.SetValue(item, entity.GetType().GetProperty(item.Name).GetValue(entity));
+                        item.SetValue(viewmodel, entity.GetType().GetProperty(item.Name).GetValue(entity));                        
                     }
                     result.Add(viewmodel);
                 }
                 return result;
             }
-            catch { return null; }
+            catch(Exception e) { return null; }
         }
 
         #endregion

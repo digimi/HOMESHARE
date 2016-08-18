@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using HomeService.Repository;
 using DAL;
+using HomeShare.Models;
 
 namespace HomeShare.Controllers
 {
@@ -17,9 +18,8 @@ namespace HomeShare.Controllers
         // GET: Residences
         public async Task<ActionResult> Index()
         {
-            //var residences = db.Residences.Include(r => r.Pictures).Include(r => r.Country).Include(r=>r.Member);
-            
-            return View(await ResidenceRepository.GetAllAsync());
+            var residences = ResidenceViewModel.MapToModels<ResidenceViewModel>(await ResidenceRepository.GetAllAsync());            
+            return View(residences);
         }
 
         // GET: Residences/Details/5
@@ -40,8 +40,11 @@ namespace HomeShare.Controllers
         // GET: Residences/Create
         public ActionResult Create()
         {
+            ResidenceViewModel Model = new ResidenceViewModel();
+
             ViewBag.MemberList = new SelectList(MemberRepository.Members(), "ID", "Login");
             ViewBag.CountryList = new SelectList(CountryRepository.Countries(), "ID", "CountryName");
+
             return View();
         }
 
